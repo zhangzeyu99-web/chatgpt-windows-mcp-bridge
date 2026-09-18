@@ -1,0 +1,16 @@
+﻿# Secrets and local runtime — never commit
+.env
+runtime.env
+**/runtime-api-key
+**/tunnel-id
+**/runtime.env
+**/secrets/
+.secrets/
+*.pem
+*.key
+node_modules/
+logs/
+*.log
+.DS_Store
+Thumbs.db
+deploy/windows/_ref-*
