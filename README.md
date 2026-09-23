@@ -1,8 +1,10 @@
-﻿# ChatGPT Windows MCP Bridge (ops template)
+# ChatGPT Windows MCP Bridge (ops template)
 
 可复刻的 **Windows 本机 MCP 桥接 + OpenAI Secure MCP Tunnel** 安装与运维模板。
 
 本仓库**不包含** MCP 服务源码本体，也不包含任何密钥。运行时会克隆上游开源桥，并下载官方 `tunnel-client`。
+
+> 仓库现为 **Public**。请只提交脚本与文档；密钥永远留在本机 `%APPDATA%`。
 
 ## 架构
 
@@ -39,7 +41,7 @@ chatgpt-sol-local-bridge (本机 MCP, 默认 :8765)
 
 ```powershell
 # 1) 克隆本运维仓库
-git clone https://github.com/<you>/chatgpt-windows-mcp-bridge.git
+git clone https://github.com/zhangzeyu99-web/chatgpt-windows-mcp-bridge.git
 cd chatgpt-windows-mcp-bridge
 
 # 2) 准备密钥目录（不要提交）
@@ -57,6 +59,9 @@ powershell -ExecutionPolicy Bypass -File .\deploy\windows\Configure-Tunnel.ps1
 
 # 5) 启动
 powershell -ExecutionPolicy Bypass -File .\deploy\windows\Start-Bridge.ps1
+
+# 6) 看状态
+powershell -ExecutionPolicy Bypass -File .\deploy\windows\Status-Bridge.ps1
 ```
 
 健康检查：
@@ -82,7 +87,8 @@ DEFAULT_WORKSPACE=D:\codex\your-repo
 ALLOW_TOOL_ROOT_REGISTRATION=false
 ```
 
-改完后执行 `Stop-Bridge.ps1` → `Start-Bridge.ps1`。
+改完后执行 `Stop-Bridge.ps1` → `Start-Bridge.ps1`。  
+注意：ChatGPT 侧动态 `workspace_add_root` 默认关闭，加目录只能改本机配置后重启。
 
 ## 开机自启（可选）
 
@@ -99,7 +105,7 @@ powershell -ExecutionPolicy Bypass -File .\deploy\windows\Install-Autostart.ps1
 - 含真实密钥的 `.env` / `runtime.env`
 - `%APPDATA%\chatgpt-sol-local-bridge\*`
 
-仓库内只保留 [.env.example](.env.example)。
+仓库内只保留 [.env.example](.env.example)。更多见 [docs/SECURITY.md](docs/SECURITY.md)。
 
 计费说明：在 ChatGPT 网页里用 Developer Mode + 本机隧道，一般走 **ChatGPT 订阅**；只有你另外用 Platform API（如 Responses API）调模型时，才会产生 Platform 用量账单。隧道本身文档未写按次收费。
 
@@ -110,4 +116,3 @@ powershell -ExecutionPolicy Bypass -File .\deploy\windows\Install-Autostart.ps1
 ## License
 
 本运维模板：MIT。上游桥与 `tunnel-client` 各自遵循其仓库许可证。
-
